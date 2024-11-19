@@ -2,6 +2,19 @@
 class Player
 {
     public int $level ;
+    public function __construct(int $level)
+{
+    self::$level=$level; 
+}
+    public static function setLevel(int $level)
+    {
+        self::$level=$level; 
+    }
+    
+    public static function getLevel(){
+return self::$level; 
+    }
+    
 }
 
 const RESULT_WINNER = 1;
@@ -27,11 +40,13 @@ class Encounter
     
         $levelPlayerOne += (int) (32 * ($playerOneResult - self::probabilityAgainst($levelPlayerOne, $againstLevelPlayerTwo)));
     }
+
 }
 $encounter= new Encounter; 
 
-$greg = 400;
-$jade = 800;
+
+$greg = new Player(400);
+$jade = new Player(800);
 
 echo sprintf(
     'Greg à %.2f%% chance de gagner face a Jade',
