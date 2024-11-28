@@ -18,6 +18,11 @@
      /** @var array<QueuingPlayer> */
      public array $queuingPlayers = [];
  
+     public function addPlayer(Player $player, int $range = 10): void
+     {
+         $this->queuingPlayers[] = new QueuingPlayer($player->getName(), $player->getRatio(), $range);
+     }
+ 
      public function findOponents(QueuingPlayer $player): array
      {
          $minLevel = round($player->getRatio() / 100);
@@ -28,18 +33,6 @@
  
              return $player !== $potentialOponent && ($minLevel <= $playerLevel) && ($playerLevel <= $maxLevel);
          });
-     }
- 
-     public function addPlayer(Player $player, int $range = 10): void
-     {
-         $this->queuingPlayers[] = new QueuingPlayer($player->getName(), $player->getRatio(), $range);
-     }
- 
-     public function addPlayers(Player ...$players): void
-     {
-         foreach ($players as $player) {
-             $this->addPlayer($player);
-         }
      }
  }
  
@@ -82,18 +75,20 @@
  
  
  
-
  $greg = new Player('greg', 400);
  $jade = new Player('jade', 476);
  
-
  $lobby = new Lobby();
- $lobby->addPlayers($greg, $jade);
+ $lobby->addPlayer($greg);
+ $lobby->addPlayer($jade);
  
-
- var_dump($lobby->findOponents($lobby->queuingPlayers[0]));
+ $opponents = $lobby->findOponents($lobby->queuingPlayers[0]);
+ 
+ var_dump($opponents);
  
  exit(0);
  
 
 
+ 
+ 
